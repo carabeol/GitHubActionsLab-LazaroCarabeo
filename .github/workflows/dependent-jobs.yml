@@ -1,0 +1,60 @@
+name: Dependent Jobs Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. SIEMPRE primero el checkout
+      - uses: actions/checkout@v4
+
+      # 2. Configurar el entorno
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Preparing environment
+        run: echo "Initializing build environment..."
+
+      # 3. Simulación y Build real
+      - name: Build Application
+        run: |
+          echo "Building application..."
+          sleep 5
+          echo "Build completed successfully."  
+
+      - name: Build with Ant
+        run: ant -noinput -buildfile build.xml
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Loading build artifacts
+        run: echo "Preparing artifacts for testing..."
+        
+      - name: Running tests
+        run: |
+          echo "Running tests..."
+          sleep 5
+          echo "All tests passed!"      
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticating with server
+        run: echo "Connecting to production server..."
+        
+      - name: Deploying application
+        run: |
+          echo "Deploying application..."
+          sleep 5
+          echo "Deployment finished!"
