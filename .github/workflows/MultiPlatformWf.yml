@@ -2,24 +2,47 @@
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-ant
 
 name: Multiplatform flow
-on: push
+on: 
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  job1:
-    name: first job to run
+  ubuntu-job:
+    name: Ubuntu Job
     runs-on: ubuntu-latest
     steps:
-      - name: Step one
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Step two
-        run: ls -la
-      - name: Third step
-        run: pwd
-  job2:
-    name: Second job to run
+      - name: OS Info
+        run: uname -a
+      - name: Create and Show File
+        run: |
+          echo "Hello from Ubuntu" > info.txt
+          cat info.txt
+
+  windows-job:
+    name: Windows Job
     runs-on: windows-latest
     steps:
-      - name: Step one of job2
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Step two of job2
-        run: pwd
-        
+      - name: OS Info
+        run: systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
+      - name: Create and Show File
+        run: |
+          echo "Hello from Windows" > info.txt
+          type info.txt
+
+  macos-job:
+    name: macOS Job
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: OS Info
+        run: sw_vers
+      - name: Create and Show File
+        run: |
+          echo "Hello from macOS" > info.txt
+          cat info.txt
