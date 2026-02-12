@@ -2,7 +2,7 @@
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-ant
 
 name: Multiplatform flow
-on: push
+on: pull
 
 jobs:
   ubuntu-job:
