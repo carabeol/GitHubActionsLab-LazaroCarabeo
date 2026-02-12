@@ -31,7 +31,7 @@ jobs:
         run: systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
       - name: Create and Show File
         run: |
-          echo "Hello from Windows" > info.txt
+          echo "Hello from Windows " > info.txt
           type info.txt
 
   macos-job:
